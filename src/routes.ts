@@ -14,11 +14,19 @@ routes.post('/classes', async (req,res) => {
         schedule
     } = req.body;
 
-    await db('users').insert({
+    const insertedUsersId = await db('users').insert({
         name,
         avatar,
         whatsapp,
         bio,
+    });
+
+    const user_id = insertedUsersId[0];
+
+    await db('classes').insert({        
+        subject,
+        cost,
+        user_id
     });
 
     return res.send();
