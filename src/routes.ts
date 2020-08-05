@@ -1,15 +1,27 @@
 import express from 'express';
+import db from './database/connection';
 
 const routes = express.Router();
 
-routes.get('/', (req,res) => {
-    const users = [
-        { name: 'Jiraya', age: 56 },
-        { name: 'Tsunade', age: 61 },
-        { name: 'Orochimaru', age: 53 },
-    ];
+routes.post('/classes', async (req,res) => {
+    const {
+        name,
+        avatar,
+        whatsapp,
+        bio,
+        subject,
+        cost,
+        schedule
+    } = req.body;
 
-    return res.json(users);
+    await db('users').insert({
+        name,
+        avatar,
+        whatsapp,
+        bio,
+    });
+
+    return res.send();
 });
 
 export default routes;
